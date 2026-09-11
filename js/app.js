@@ -153,3 +153,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Global dropdown manager
+window.toggleDropdown = function(id) {
+    const dropdown = document.getElementById(id);
+    if (!dropdown) return;
+    
+    if (id === "profileDropdown") {
+        const other = document.getElementById("notificationDropdown");
+        if (other) other.classList.remove("show");
+    } else if (id === "notificationDropdown") {
+        const other = document.getElementById("profileDropdown");
+        if (other) other.classList.remove("show");
+    }
+    
+    dropdown.classList.toggle("show");
+};
+

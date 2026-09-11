@@ -21,9 +21,19 @@
                 KALAI LINK
             </a>
             <div style="display: flex; align-items: center; gap: var(--spacing-md);">
-                <button class="btn-icon"><i data-lucide="bell"></i></button>
+                <div style="position: relative;" class="notification-dropdown-container">
+                    <button class="btn-icon" onclick="window.toggleDropdown('notificationDropdown')">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <div id="notificationDropdown" class="profile-dropdown" style="width: 250px; padding: 16px; text-align: center;">
+                        <i data-lucide="bell-off" style="margin: 0 auto 8px auto; color: var(--color-text-muted);"></i>
+                        <div style="font-weight: 500; color: var(--color-text);">No notifications rn</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 4px;">You're all caught up!</div>
+                    </div>
+                </div>
+
                 <div style="position: relative;" class="profile-dropdown-container">
-                    <button style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: none; cursor: pointer; padding: 0;" onclick="document.getElementById('profileDropdown').classList.toggle('show')">
+                    <button style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: none; cursor: pointer; padding: 0;" onclick="window.toggleDropdown('profileDropdown')">
                         <span id="headerInitial">L</span>
                     </button>
                     <div id="profileDropdown" class="profile-dropdown">
