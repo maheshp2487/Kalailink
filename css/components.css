@@ -304,3 +304,24 @@ textarea.form-control {
 
 .toast.success { border-left-color: var(--color-success); }
 .toast.error { border-left-color: var(--color-error); }
+
+.profile-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    min-width: 200px;
+    z-index: 100;
+    overflow: hidden;
+}
+.profile-dropdown.show {
+    display: block;
+}
+.profile-dropdown a:hover {
+    background-color: var(--color-surface-hover);
+}
+

@@ -37,7 +37,7 @@ const App = {
           location: 'Rajasthan',
           price: 850,
           category: 'Pottery',
-          image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800',
+          image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&q=80&w=800',
           tags: ['Hand-painted', 'Home Decor'],
           isAiEnhanced: false
         },
@@ -48,12 +48,32 @@ const App = {
           location: 'Andhra Pradesh',
           price: 2100,
           category: 'Textiles',
-          image: 'https://images.unsplash.com/photo-1629218683525-4fc1cc8b6cb0?auto=format&fit=crop&q=80&w=800',
+          image: 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=800',
           tags: ['Natural Dyes', 'Cotton'],
           isAiEnhanced: true
         }
       ];
       localStorage.setItem('kalai_products', JSON.stringify(demoProducts));
+    } else {
+        try {
+            let cached = JSON.parse(localStorage.getItem('kalai_products'));
+            let updated = false;
+            cached.forEach(p => {
+                if (p.id === 'p1' && !p.image.includes('1544816155')) {
+                    p.image = 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800';
+                    updated = true;
+                }
+                if (p.id === 'p2' && !p.image.includes('1578500494198')) {
+                    p.image = 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&q=80&w=800';
+                    updated = true;
+                }
+                if (p.id === 'p3' && !p.image.includes('1528698827591')) {
+                    p.image = 'https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?auto=format&fit=crop&q=80&w=800';
+                    updated = true;
+                }
+            });
+            if (updated) localStorage.setItem('kalai_products', JSON.stringify(cached));
+        } catch(e) {}
     }
   },
 

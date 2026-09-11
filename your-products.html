@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Products | KALAI LINK</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-transition">
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i data-lucide="flower-2" class="logo-icon"></i>
+                KALAI LINK
+            </a>
+            <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                <button class="btn-icon"><i data-lucide="bell"></i></button>
+                <div style="position: relative;" class="profile-dropdown-container">
+                    <button style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; border: none; cursor: pointer; padding: 0;" onclick="document.getElementById('profileDropdown').classList.toggle('show')">
+                        <span id="headerInitial">L</span>
+                    </button>
+                    <div id="profileDropdown" class="profile-dropdown">
+                        <div style="padding: 12px 16px; border-bottom: 1px solid var(--color-border);">
+                            <strong id="dropdownName" style="display: block; color: var(--color-text);">Lakshmi Devi</strong>
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted);">Artisan</span>
+                        </div>
+                        <a href="settings.html" style="display: flex; align-items: center; padding: 10px 16px; color: var(--color-text); text-decoration: none;"><i data-lucide="settings" style="width: 16px; height: 16px; margin-right: 8px;"></i> Settings</a>
+                        <a href="index.html" style="display: flex; align-items: center; padding: 10px 16px; color: var(--color-error); text-decoration: none; border-top: 1px solid var(--color-border);"><i data-lucide="log-out" style="width: 16px; height: 16px; margin-right: 8px;"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="artisan-dashboard.html" class="sidebar-item">
+                    <i data-lucide="layout-dashboard"></i> Dashboard
+                </a>
+                <a href="add-product.html" class="sidebar-item">
+                    <i data-lucide="plus-circle"></i> Add Product
+                </a>
+                <a href="your-products.html" class="sidebar-item active">
+                    <i data-lucide="package"></i> Your Products
+                </a>
+                <a href="orders.html" class="sidebar-item">
+                    <i data-lucide="shopping-bag"></i> Orders & Enquiries
+                </a>
+                <a href="market-insights.html" class="sidebar-item">
+                    <i data-lucide="bar-chart-2"></i> Market Insights
+                </a>
+                <a href="settings.html" class="sidebar-item">
+                    <i data-lucide="settings"></i> Settings
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content container animate-slide-up">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xl);">
+                <h1 style="font-size: 2rem;">Your Products</h1>
+                <a href="add-product.html" class="btn btn-primary"><i data-lucide="plus"></i> Add New</a>
+            </div>
+
+            <div class="card">
+                <div class="card-body" id="productsContainer">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="bottom-nav">
+        <a href="artisan-dashboard.html" class="bottom-nav-item"><i data-lucide="layout-dashboard" class="bottom-nav-icon"></i><span>Home</span></a>
+        <a href="your-products.html" class="bottom-nav-item active"><i data-lucide="package" class="bottom-nav-icon"></i><span>Products</span></a>
+        <a href="add-product.html" class="bottom-nav-item">
+            <div style="background-color: var(--color-primary); color: white; padding: 12px; border-radius: 50%; transform: translateY(-20px); box-shadow: 0 4px 10px rgba(140, 58, 39, 0.4);"><i data-lucide="plus" class="bottom-nav-icon"></i></div>
+            <span style="transform: translateY(-10px);">Add</span>
+        </a>
+        <a href="orders.html" class="bottom-nav-item"><i data-lucide="shopping-bag" class="bottom-nav-icon"></i><span>Orders</span></a>
+        <a href="settings.html" class="bottom-nav-item"><i data-lucide="user" class="bottom-nav-icon"></i><span>Profile</span></a>
+    </nav>
+
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userData = JSON.parse(localStorage.getItem('kalai_user') || '{}');
+            if(userData.name) document.getElementById('headerInitial').textContent = userData.name.charAt(0);
+
+            const container = document.getElementById('productsContainer');
+            const products = JSON.parse(localStorage.getItem('kalai_products') || '[]');
+            
+            if (products.length === 0) {
+                container.innerHTML = '<div class="text-center text-muted" style="padding: 2rem;">No products listed yet.</div>';
+            } else {
+                let html = '<div style="display: flex; flex-direction: column; gap: var(--spacing-md);">';
+                products.reverse().forEach(p => {
+                    html += `
+                        <div style="display: flex; gap: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px solid var(--color-border); align-items: center;">
+                            <img src="${p.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-sm);">
+                            <div style="flex-grow: 1;">
+                                <h4 style="margin-bottom: 4px;">${p.name}</h4>
+                                <div style="color: var(--color-primary); font-weight: 600;">₹${p.price}</div>
+                            </div>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.875rem;" onclick="App.showToast('Edit simulated for demo')">Edit</button>
+                                <button class="btn btn-outline" style="padding: 4px 12px; font-size: 0.875rem; color: var(--color-error); border-color: var(--color-error);" onclick="App.showToast('Product deleted', 'success')">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            }
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

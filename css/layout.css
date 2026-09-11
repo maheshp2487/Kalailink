@@ -1,7 +1,6 @@
-/* Main Layout Container */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
 }
@@ -254,3 +253,11 @@
   padding: var(--spacing-2xl) 0;
   margin-top: auto;
 }
+
+.sidebar {
+    position: sticky;
+    top: 72px;
+    height: calc(100vh - 72px);
+    overflow-y: auto;
+}
+
