@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | KALAI LINK</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-transition">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i data-lucide="flower-2" class="logo-icon"></i>
+                KALAI LINK
+            </a>
+            
+            <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                <div class="badge badge-neutral hidden md-flex" style="display: flex; align-items: center; gap: 4px;">
+                    <i data-lucide="globe" style="width: 14px; height: 14px;"></i>
+                    English / தமிழ்
+                </div>
+                <button class="btn-icon">
+                    <i data-lucide="bell"></i>
+                </button>
+                <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                    <span id="headerInitial">L</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar for Desktop -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <a href="artisan-dashboard.html" class="sidebar-item active">
+                    <i data-lucide="layout-dashboard"></i>
+                    Dashboard
+                </a>
+                <a href="add-product.html" class="sidebar-item">
+                    <i data-lucide="plus-circle"></i>
+                    Add Product
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i data-lucide="package"></i>
+                    Your Products
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i data-lucide="shopping-bag"></i>
+                    Orders & Enquiries
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i data-lucide="bar-chart-2"></i>
+                    Market Insights
+                </a>
+                <a href="#" class="sidebar-item">
+                    <i data-lucide="settings"></i>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content container">
+            <div class="animate-slide-up">
+                <!-- Welcome Section -->
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-2xl); gap: var(--spacing-md);">
+                    <div>
+                        <h1 style="font-size: 2.5rem; margin-bottom: var(--spacing-xs);">Good morning, <span id="artisanNameDisplay">Lakshmi</span></h1>
+                        <p class="text-muted" style="font-size: 1.125rem;">Let's bring your craft to more buyers today.</p>
+                    </div>
+                    <div>
+                        <a href="add-product.html" class="btn btn-primary btn-lg" style="box-shadow: var(--shadow-floating);">
+                            <i data-lucide="plus"></i>
+                            Add New Product
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Dashboard Metrics -->
+                <div class="grid-4 delay-100 animate-slide-up" style="margin-bottom: var(--spacing-2xl);">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                                <div class="text-muted" style="font-weight: 500;">Products Listed</div>
+                                <div class="badge badge-success">+1 this week</div>
+                            </div>
+                            <div style="font-size: 2.5rem; font-weight: 700; font-family: var(--font-heading);">12</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                                <div class="text-muted" style="font-weight: 500;">Buyer Interest</div>
+                                <i data-lucide="eye" style="color: var(--color-primary);"></i>
+                            </div>
+                            <div style="font-size: 2.5rem; font-weight: 700; font-family: var(--font-heading);">84</div>
+                            <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 4px;">views this month</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                                <div class="text-muted" style="font-weight: 500;">Orders</div>
+                                <i data-lucide="shopping-cart" style="color: var(--color-primary);"></i>
+                            </div>
+                            <div style="font-size: 2.5rem; font-weight: 700; font-family: var(--font-heading);">5</div>
+                            <div style="font-size: 0.875rem; color: var(--color-success); font-weight: 500; margin-top: 4px;">2 pending fulfillment</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
+                                <div class="text-muted" style="font-weight: 500;">Earnings</div>
+                                <i data-lucide="indian-rupee" style="color: var(--color-success);"></i>
+                            </div>
+                            <div style="font-size: 2.5rem; font-weight: 700; font-family: var(--font-heading);">₹14,500</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Market Opportunities & Recent Products -->
+                <div class="grid-2 delay-200 animate-slide-up">
+                    
+                    <!-- Market Opportunities -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                            <h2 style="font-size: 1.5rem;">AI Market Matches</h2>
+                            <a href="#" class="btn btn-text">View All</a>
+                        </div>
+                        
+                        <div class="card mb-4" style="margin-bottom: var(--spacing-md);">
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm);">
+                                    <div class="badge badge-ai">95% Match</div>
+                                    <span class="text-muted" style="font-size: 0.875rem;">Bulk Enquiry</span>
+                                </div>
+                                <h3 style="margin-bottom: var(--spacing-xs);">Handmade Home Decor Retailer</h3>
+                                <p class="text-muted" style="font-size: 0.875rem; margin-bottom: var(--spacing-md);">Looking for 50+ units of palm leaf baskets for festival gifting.</p>
+                                <button class="btn btn-outline" style="width: 100%;">View Opportunity</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm);">
+                                    <div class="badge badge-ai" style="background: var(--color-secondary);">82% Match</div>
+                                    <span class="text-muted" style="font-size: 0.875rem;">Exhibition</span>
+                                </div>
+                                <h3 style="margin-bottom: var(--spacing-xs);">Regional Handicraft Mela</h3>
+                                <p class="text-muted" style="font-size: 0.875rem; margin-bottom: var(--spacing-md);">Chennai craft exhibition looking for traditional weavers.</p>
+                                <button class="btn btn-outline" style="width: 100%;">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Products -->
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                            <h2 style="font-size: 1.5rem;">Your Products</h2>
+                            <a href="#" class="btn btn-text">Manage</a>
+                        </div>
+                        
+                        <div id="dashboardProductList" style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Navigation for Mobile -->
+    <nav class="bottom-nav">
+        <a href="artisan-dashboard.html" class="bottom-nav-item active">
+            <i data-lucide="layout-dashboard" class="bottom-nav-icon"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i data-lucide="package" class="bottom-nav-icon"></i>
+            <span>Products</span>
+        </a>
+        <a href="add-product.html" class="bottom-nav-item">
+            <div style="background-color: var(--color-primary); color: white; padding: 12px; border-radius: 50%; transform: translateY(-20px); box-shadow: 0 4px 10px rgba(140, 58, 39, 0.4);">
+                <i data-lucide="plus" class="bottom-nav-icon"></i>
+            </div>
+            <span style="transform: translateY(-10px);">Add</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i data-lucide="shopping-bag" class="bottom-nav-icon"></i>
+            <span>Orders</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i data-lucide="user" class="bottom-nav-icon"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

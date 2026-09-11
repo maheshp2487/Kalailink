@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Crafts | KALAI LINK</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .filter-sidebar {
+            display: none;
+        }
+        @media (min-width: 1024px) {
+            .filter-sidebar {
+                display: block;
+                width: 250px;
+                flex-shrink: 0;
+            }
+        }
+        
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .product-img-wrap {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-slow);
+        }
+        
+        .product-card:hover .product-img-wrap img {
+            transform: scale(1.05);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="page-transition">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i data-lucide="flower-2" class="logo-icon"></i>
+                KALAI LINK
+            </a>
+            
+            <div style="flex-grow: 1; max-width: 400px; margin: 0 var(--spacing-xl); display: none;" class="md-block">
+                <div style="position: relative;">
+                    <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); width: 18px; height: 18px;"></i>
+                    <input type="text" class="form-control" placeholder="Search crafts, artisans..." style="padding-left: 40px; border-radius: var(--radius-full);">
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                <a href="#" class="btn btn-text hidden md-block">Saved</a>
+                <a href="#" class="btn btn-text hidden md-block">Cart (0)</a>
+                <button class="mobile-toggle">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: var(--spacing-2xl); padding-bottom: var(--spacing-4xl);">
+        
+        <div class="text-center" style="margin-bottom: var(--spacing-2xl);">
+            <h1 style="font-size: 2.5rem; margin-bottom: var(--spacing-sm);">Discover Handmade India</h1>
+            <p class="text-muted">Directly sourced from artisans. Verified by AI.</p>
+        </div>
+
+        <div style="display: flex; gap: var(--spacing-2xl);">
+            <!-- Filters (Desktop) -->
+            <aside class="filter-sidebar animate-slide-right">
+                <h3 style="margin-bottom: var(--spacing-md); font-size: 1.125rem;">Filters</h3>
+                
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <h4 style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--spacing-sm);">Category</h4>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox" checked> All Crafts</label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox"> Textiles</label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox"> Pottery</label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox"> Basketry</label>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: var(--spacing-lg);">
+                    <h4 style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--spacing-sm);">Buyer Type</h4>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox"> Retail</label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;"><input type="checkbox"> Wholesale / Bulk</label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Product Grid -->
+            <div style="flex-grow: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
+                    <div class="text-muted"><span id="productCount">0</span> items found</div>
+                    <select class="form-control" style="width: auto; padding: 4px 12px;">
+                        <option>Recommended</option>
+                        <option>Newest</option>
+                        <option>Price: Low to High</option>
+                    </select>
+                </div>
+
+                <div class="grid-3 animate-slide-up delay-100" id="marketplaceGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/marketplace.js"></script>
+</body>
+</html>

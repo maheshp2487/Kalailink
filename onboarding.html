@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding | KALAI LINK</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="page-transition" style="background-color: var(--color-surface);">
+
+    <!-- Simple Header for Onboarding -->
+    <header class="header">
+        <div class="container header-container" style="justify-content: center;">
+            <a href="index.html" class="logo">
+                <i data-lucide="flower-2" class="logo-icon"></i>
+                KALAI LINK
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="onboarding-container animate-slide-up">
+            
+            <div class="step-indicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <div class="text-center" style="margin-bottom: var(--spacing-2xl);">
+                <h1 class="onboarding-title">Let's get your craft online.</h1>
+                <p class="onboarding-subtitle">It only takes a minute to set up your artisan profile.</p>
+            </div>
+
+            <!-- Voice Entry Alternative -->
+            <div class="voice-entry-card" id="onboardingVoiceBtn">
+                <button class="btn-voice" style="margin-bottom: var(--spacing-md);">
+                    <i data-lucide="mic"></i>
+                    Speak instead
+                </button>
+                <p class="text-muted" style="font-size: 0.875rem;">
+                    Tap the microphone and tell us your name, location, and craft. <br>We'll fill the form for you.
+                </p>
+                <!-- Simulation UI -->
+                <div id="voiceSimulation" class="hidden" style="margin-top: 1rem; color: var(--color-primary); font-weight: 500;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span class="spinner" style="width: 16px; height: 16px;"></span>
+                        Listening...
+                    </div>
+                    <p style="font-style: italic; color: var(--color-text-main);" id="voiceTranscript">"My name is Lakshmi Devi. I make palm leaf baskets in Tamil Nadu."</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: var(--spacing-xl); position: relative;">
+                <hr style="border: none; border-top: 1px solid var(--color-border);">
+                <span style="background: var(--color-surface); padding: 0 1rem; color: var(--color-text-muted); position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 0.875rem;">Or type your details</span>
+            </div>
+
+            <!-- Manual Form -->
+            <form id="onboardingForm" action="artisan-dashboard.html">
+                <div class="form-group">
+                    <label class="form-label" for="artisanName">Full Name</label>
+                    <input type="text" id="artisanName" class="form-control" placeholder="e.g. Lakshmi Devi" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="mobileNumber">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" class="form-control" placeholder="+91" required>
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location (State/District)</label>
+                        <input type="text" id="location" class="form-control" placeholder="e.g. Tamil Nadu">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="craftType">Primary Craft</label>
+                        <select id="craftType" class="form-control">
+                            <option value="">Select a craft...</option>
+                            <option value="textiles">Textiles & Weaving</option>
+                            <option value="pottery">Pottery & Ceramics</option>
+                            <option value="basketry">Basketry & Palm Leaf</option>
+                            <option value="wood">Woodcraft</option>
+                            <option value="jewelry">Jewellery</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: var(--spacing-xl);">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Continue to Dashboard</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const voiceBtn = document.getElementById('onboardingVoiceBtn');
+            const voiceBtnInner = voiceBtn.querySelector('.btn-voice');
+            const simulation = document.getElementById('voiceSimulation');
+            const formInputs = {
+                name: document.getElementById('artisanName'),
+                location: document.getElementById('location'),
+                craft: document.getElementById('craftType')
+            };
+
+            // Voice Interaction Simulation
+            voiceBtnInner.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                if (voiceBtnInner.classList.contains('recording')) {
+                    // Stop recording
+                    voiceBtnInner.classList.remove('recording');
+                    voiceBtnInner.innerHTML = '<i data-lucide="mic"></i> Speak instead';
+                    simulation.classList.add('hidden');
+                    lucide.createIcons();
+                    return;
+                }
+
+                // Start recording
+                voiceBtnInner.classList.add('recording');
+                voiceBtnInner.innerHTML = '<i data-lucide="square"></i> Stop';
+                simulation.classList.remove('hidden');
+                lucide.createIcons();
+                
+                // Simulate processing delay and auto-fill
+                setTimeout(() => {
+                    if(!voiceBtnInner.classList.contains('recording')) return;
+                    
+                    formInputs.name.value = "Lakshmi Devi";
+                    formInputs.location.value = "Tamil Nadu";
+                    formInputs.craft.value = "basketry";
+                    
+                    // Highlight inputs to show they were filled
+                    Object.values(formInputs).forEach(input => {
+                        input.style.backgroundColor = "var(--color-success-bg)";
+                        input.style.borderColor = "var(--color-success)";
+                        setTimeout(() => {
+                            input.style.backgroundColor = "";
+                            input.style.borderColor = "";
+                        }, 1500);
+                    });
+
+                    voiceBtnInner.classList.remove('recording');
+                    voiceBtnInner.innerHTML = '<i data-lucide="mic"></i> Speak instead';
+                    simulation.classList.add('hidden');
+                    lucide.createIcons();
+                    App.showToast('Details filled from voice successfully!');
+                }, 3000);
+            });
+
+            // Form Submit Simulation
+            document.getElementById('onboardingForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Store simulated user
+                localStorage.setItem('kalai_user', JSON.stringify({
+                    name: formInputs.name.value || 'Lakshmi Devi',
+                    location: formInputs.location.value || 'Tamil Nadu',
+                    craft: formInputs.craft.options[formInputs.craft.selectedIndex].text || 'Handicrafts'
+                }));
+                
+                // Redirect
+                window.location.href = 'artisan-dashboard.html';
+            });
+        });
+    </script>
+</body>
+</html>

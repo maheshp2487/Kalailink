@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | KALAI LINK</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .gallery-main {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @media (min-width: 768px) {
+            .gallery-main { aspect-ratio: 1; }
+        }
+    </style>
+</head>
+<body class="page-transition">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="marketplace.html" class="logo" style="font-size: 1rem; font-weight: 500;">
+                <i data-lucide="arrow-left" style="margin-right: 8px;"></i>
+                Back to Market
+            </a>
+            
+            <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                <button class="btn-icon"><i data-lucide="share-2"></i></button>
+                <button class="btn-icon"><i data-lucide="heart"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: var(--spacing-2xl); padding-bottom: var(--spacing-4xl);">
+        
+        <div class="grid-2" style="margin-bottom: var(--spacing-4xl);" id="productDetailContainer">
+            <!-- Loading state -->
+            <div class="skeleton" style="height: 400px;"></div>
+            <div>
+                <div class="skeleton skeleton-text" style="width: 80%; height: 40px;"></div>
+                <div class="skeleton skeleton-text" style="width: 40%;"></div>
+            </div>
+        </div>
+
+        <!-- Artisan Story Section -->
+        <section style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--spacing-2xl); margin-bottom: var(--spacing-4xl);" class="animate-slide-up delay-200">
+            <div class="grid-2" style="align-items: center;">
+                <div style="display: flex; gap: var(--spacing-lg); align-items: center;">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; overflow: hidden;">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200" alt="Artisan" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.75rem; margin-bottom: 4px;" id="storyName">Meet the Artisan</h2>
+                        <div style="color: var(--color-text-muted); display: flex; align-items: center; gap: 4px;">
+                            <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                            <span id="storyLocation">India</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.125rem; margin-bottom: var(--spacing-sm);">The Craft Story</h3>
+                    <p class="text-muted" style="line-height: 1.6; margin-bottom: var(--spacing-md);">
+                        "I learned this craft from my mother, who learned it from hers. Every piece we make carries the history of our village. Through KALAI LINK, I am able to show our tradition to the world directly."
+                    </p>
+                    <button class="btn btn-outline">Explore All Products</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let productId = urlParams.get('id');
+            
+            const productsStr = localStorage.getItem('kalai_products');
+            let product = null;
+            
+            if (productsStr) {
+                const products = JSON.parse(productsStr);
+                if (productId) {
+                    product = products.find(p => p.id === productId);
+                }
+                // Fallback to latest if no ID
+                if (!product && products.length > 0) {
+                    product = products[products.length - 1];
+                }
+            }
+
+            if (product) {
+                // Populate Details
+                const container = document.getElementById('productDetailContainer');
+                
+                const tagsHtml = product.tags ? product.tags.map(t => `<span class="badge badge-neutral" style="margin-right: 8px; margin-bottom: 8px;">${t}</span>`).join('') : '';
+
+                container.innerHTML = `
+                    <div class="animate-slide-up">
+                        <div class="gallery-main relative">
+                            <img src="${product.image}" alt="${product.name}">
+                            ${product.isAiEnhanced ? `<div class="badge badge-ai" style="position: absolute; bottom: 16px; left: 16px;"><i data-lucide="sparkles" style="width: 14px; height: 14px; margin-right: 4px;"></i>AI Verified Image</div>` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="animate-slide-right delay-100" style="display: flex; flex-direction: column;">
+                        <div style="font-size: 0.875rem; color: var(--color-primary); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">
+                            ${product.category}
+                        </div>
+                        <h1 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: var(--spacing-md);">${product.name}</h1>
+                        
+                        <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-lg);">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-secondary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                                ${product.artisan.charAt(0)}
+                            </div>
+                            <div>
+                                <div style="font-weight: 500;">${product.artisan}</div>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);"><i data-lucide="map-pin" style="width: 12px; height: 12px; display: inline-block;"></i> ${product.location}</div>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary); font-family: var(--font-heading); margin-bottom: var(--spacing-xl);">
+                            ₹${product.price}
+                        </div>
+
+                        <div style="margin-bottom: var(--spacing-xl);">
+                            <h3 style="font-size: 1.125rem; margin-bottom: var(--spacing-sm);">Description</h3>
+                            <p class="text-muted" style="line-height: 1.6; margin-bottom: var(--spacing-sm);">
+                                A beautiful handmade piece crafted with dedication and skill. Perfect for bringing a touch of traditional Indian artistry into your space.
+                            </p>
+                            <div style="display: flex; align-items: center; gap: 4px; font-size: 0.75rem; color: var(--color-text-light);">
+                                <i data-lucide="bot" style="width: 14px; height: 14px;"></i> Description generated by AI from artisan's voice notes
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: var(--spacing-xl);">
+                            ${tagsHtml}
+                        </div>
+
+                        <div style="display: flex; gap: var(--spacing-md); margin-top: auto;">
+                            <button class="btn btn-primary btn-lg" style="flex: 2;" onclick="App.showToast('Enquiry sent to artisan!')">Enquire to Buy</button>
+                            <button class="btn btn-secondary btn-lg" style="flex: 1;" onclick="App.showToast('Added to bulk request list.')">Bulk Request</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('storyName').textContent = `Meet ${product.artisan.split(' ')[0]}`;
+                document.getElementById('storyLocation').textContent = product.location;
+                
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>

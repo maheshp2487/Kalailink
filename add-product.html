@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product | KALAI LINK</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/pages.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        .flow-step {
+            display: none;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+        
+        .flow-step.active {
+            display: block;
+            opacity: 1;
+            animation: slideUpFade 0.4s ease-out forwards;
+        }
+
+        /* Image Upload Area */
+        .upload-area {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-4xl) var(--spacing-lg);
+            text-align: center;
+            background-color: var(--color-surface);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--color-primary);
+            background-color: rgba(140, 58, 39, 0.02);
+        }
+
+        /* Before/After Slider */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            background: #000;
+        }
+        
+        @media (min-width: 768px) {
+            .comparison-slider { height: 500px; }
+        }
+
+        .comparison-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .comparison-before {
+            z-index: 1;
+            clip-path: inset(0 50% 0 0);
+            /* Raw image filter to look 'unprocessed' */
+            filter: contrast(0.85) brightness(0.9) sepia(0.2);
+        }
+
+        .comparison-after {
+            z-index: 0;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: white;
+            z-index: 2;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            color: var(--color-primary);
+        }
+
+        /* AI Processing Screen */
+        .ai-processing {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
+            text-align: center;
+        }
+
+        .processing-ring {
+            width: 80px;
+            height: 80px;
+            border: 4px solid var(--color-surface-hover);
+            border-top-color: var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .processing-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--color-primary);
+            height: 30px;
+        }
+
+        /* Language Tabs */
+        .lang-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .lang-tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--color-text-muted);
+        }
+
+        .lang-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+    </style>
+</head>
+<body class="page-transition">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="artisan-dashboard.html" class="logo">
+                <i data-lucide="arrow-left" style="color: var(--color-text-main); margin-right: var(--spacing-sm);"></i>
+                <span style="font-size: 1.25rem; color: var(--color-text-main);">Add Product</span>
+            </a>
+            
+            <div class="step-indicator" style="margin-bottom: 0; width: 150px; display: none;" id="headerProgress">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: var(--spacing-xl); padding-bottom: var(--spacing-4xl); max-width: 800px;">
+        
+        <!-- STEP 1: IMAGE UPLOAD -->
+        <section id="step1" class="flow-step active">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h1 style="font-size: 2rem; margin-bottom: var(--spacing-xs);">Create your product listing</h1>
+                <p class="text-muted">Just show us your craft. KALAI LINK will handle the details.</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div style="background-color: var(--color-success-bg); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--spacing-md) auto; color: var(--color-success);">
+                    <i data-lucide="camera" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h3 style="margin-bottom: var(--spacing-xs);">Take a photo or upload</h3>
+                <p class="text-muted" style="margin-bottom: var(--spacing-xl);">Ensure good lighting and a plain background if possible.</p>
+                
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center;">
+                    <button class="btn btn-primary" onclick="simulateUpload()">
+                        <i data-lucide="camera"></i> Take Photo
+                    </button>
+                    <button class="btn btn-secondary" onclick="simulateUpload()">
+                        <i data-lucide="upload"></i> Upload
+                    </button>
+                </div>
+                <input type="file" id="fileInput" hidden accept="image/*">
+            </div>
+        </section>
+
+
+        <!-- STEP 2: AI PROCESSING (INTERMEDIATE) -->
+        <section id="stepProcessing" class="flow-step">
+            <div class="ai-processing">
+                <div class="processing-ring"></div>
+                <div class="processing-text" id="processingMsg">Analyzing your craft...</div>
+                <div class="badge badge-ai" style="margin-top: var(--spacing-lg);">
+                    <i data-lucide="sparkles" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                    AI ACTIVE
+                </div>
+            </div>
+        </section>
+
+
+        <!-- STEP 3: AI IMAGE STUDIO -->
+        <section id="step2" class="flow-step">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-md);">
+                <div>
+                    <h2 style="font-size: 1.75rem; margin-bottom: 4px;">AI Image Studio</h2>
+                    <p class="text-muted">We've enhanced the lighting and removed the background.</p>
+                </div>
+                <div class="badge badge-ai">
+                    <i data-lucide="sparkles" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                    AI Enhanced
+                </div>
+            </div>
+
+            <div class="comparison-slider" id="comparisonSlider">
+                <!-- Using placeholder images that represent before/after -->
+                <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800" class="comparison-img comparison-after" alt="Enhanced Image">
+                <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800" class="comparison-img comparison-before" id="imgBefore" alt="Original Image">
+                <div class="slider-handle" id="sliderHandle">
+                    <div class="slider-button">
+                        <i data-lucide="code-2" style="transform: rotate(90deg);"></i>
+                    </div>
+                </div>
+                <div style="position: absolute; top: 16px; left: 16px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; z-index: 3;">Original</div>
+                <div style="position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; z-index: 3;">Enhanced</div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--spacing-xl);">
+                <button class="btn btn-text" onclick="prevStep('step1')">Retake Photo</button>
+                <button class="btn btn-primary" onclick="nextStep('step3')">Use Enhanced Image</button>
+            </div>
+        </section>
+
+
+        <!-- STEP 4: VOICE DESCRIPTION -->
+        <section id="step3" class="flow-step">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 style="font-size: 1.75rem; margin-bottom: 4px;">Tell us about your craft</h2>
+                <p class="text-muted">Speak naturally in your own language. AI will create a professional catalogue.</p>
+            </div>
+
+            <div style="display: flex; gap: var(--spacing-lg); align-items: center; justify-content: center; margin-bottom: var(--spacing-2xl);">
+                <div style="width: 100px; height: 100px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+                    <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=200" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div>
+                    <div class="badge badge-ai" style="margin-bottom: 8px;">AI Identified: Terracotta Pot</div>
+                    <p class="text-muted" style="font-size: 0.875rem;">What is it made of? How long did it take?</p>
+                </div>
+            </div>
+
+            <div class="voice-entry-card" id="productVoiceBtn" style="max-width: 400px; margin: 0 auto var(--spacing-xl) auto;">
+                <button class="btn-voice" style="margin-bottom: var(--spacing-md);">
+                    <i data-lucide="mic"></i>
+                    Tap to Speak
+                </button>
+                
+                <div id="productVoiceSimulation" class="hidden">
+                    <div style="display: flex; justify-content: center; gap: 4px; height: 24px; align-items: center; margin-bottom: 12px;" class="waveform">
+                        <div style="width: 4px; height: 8px; background: var(--color-error); border-radius: 2px; animation: bounce 1s infinite;"></div>
+                        <div style="width: 4px; height: 16px; background: var(--color-error); border-radius: 2px; animation: bounce 1s infinite 0.2s;"></div>
+                        <div style="width: 4px; height: 24px; background: var(--color-error); border-radius: 2px; animation: bounce 1s infinite 0.4s;"></div>
+                        <div style="width: 4px; height: 12px; background: var(--color-error); border-radius: 2px; animation: bounce 1s infinite 0.6s;"></div>
+                        <div style="width: 4px; height: 8px; background: var(--color-error); border-radius: 2px; animation: bounce 1s infinite 0.8s;"></div>
+                    </div>
+                    <p style="font-style: italic; color: var(--color-text-main); min-height: 48px;" id="productTranscript">...</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-bottom: var(--spacing-xl);">
+                <button class="btn btn-secondary" onclick="simulateCatalogueGeneration()" id="btnGenerateCatalog" disabled>Generate Catalogue</button>
+            </div>
+            
+            <style>
+                @keyframes bounce {
+                    0%, 100% { transform: scaleY(0.5); }
+                    50% { transform: scaleY(1); }
+                }
+            </style>
+        </section>
+
+
+        <!-- STEP 5: AI CATALOGUE PREVIEW & EDIT -->
+        <section id="step4" class="flow-step">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--spacing-md);">
+                <div>
+                    <h2 style="font-size: 1.75rem; margin-bottom: 4px;">Review your catalogue</h2>
+                    <p class="text-muted">AI has generated these details. You can edit them.</p>
+                </div>
+                <div class="badge badge-ai">
+                    <i data-lucide="sparkles" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                    AI Generated
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: var(--spacing-xl);">
+                <div class="lang-tabs">
+                    <div class="lang-tab active" onclick="switchLang('en', this)">English</div>
+                    <div class="lang-tab" onclick="switchLang('hi', this)">हिन्दी</div>
+                    <div class="lang-tab" onclick="switchLang('ta', this)">தமிழ்</div>
+                </div>
+
+                <div class="card-body" id="catalogFormEn">
+                    <div class="form-group">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" value="Hand-painted Terracotta Decor Vase" id="catName">
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-control" id="catCategory">
+                                <option value="pottery" selected>Pottery & Ceramics</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Materials</label>
+                            <input type="text" class="form-control" value="Natural Clay, Eco-friendly Paint" id="catMaterials">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" rows="4" id="catDesc">A traditional handcrafted terracotta vase made using locally sourced river clay. It is hand-painted with intricate cultural motifs taking over 5 hours to complete. Perfect for home decor and gifting.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tags (Comma separated)</label>
+                        <input type="text" class="form-control" value="Handmade, Home Decor, Terracotta, Traditional" id="catTags">
+                    </div>
+                </div>
+                
+                <div class="card-body hidden" id="catalogFormHi">
+                    <p class="text-muted">Hindi translation simulation...</p>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" value="हाथ से रंगा हुआ टेराकोटा सजावटी फूलदान">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary" onclick="nextStep('step5')">Continue to Pricing</button>
+            </div>
+        </section>
+
+
+        <!-- STEP 6: AI PRICE ASSISTANT -->
+        <section id="step5" class="flow-step">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 style="font-size: 1.75rem; margin-bottom: 4px;">AI Price Assistant</h2>
+                <p class="text-muted">Get a suggested price based on materials, effort, and market demand.</p>
+            </div>
+
+            <div class="card" style="max-width: 500px; margin: 0 auto var(--spacing-2xl) auto; border-color: var(--color-secondary);">
+                <div class="card-body text-center">
+                    <div class="badge badge-ai" style="margin-bottom: var(--spacing-md);">Suggested Price</div>
+                    <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary); font-family: var(--font-heading); margin-bottom: var(--spacing-xs);">₹850</div>
+                    <p class="text-muted" style="margin-bottom: var(--spacing-lg);">Market range: ₹750 – ₹1,100</p>
+                    
+                    <div style="text-align: left; background: var(--color-surface-hover); padding: var(--spacing-md); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg);">
+                        <h4 style="font-size: 0.875rem; margin-bottom: var(--spacing-sm);">Why this price?</h4>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 4px;">
+                            <span class="text-muted">Material Cost:</span>
+                            <span>~₹150</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 4px;">
+                            <span class="text-muted">Effort (5 hours):</span>
+                            <span>~₹400</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 4px;">
+                            <span class="text-muted">Similar Products Avg:</span>
+                            <span>₹950</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.875rem; font-weight: 600; color: var(--color-success); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--color-border);">
+                            <span>Demand Signal:</span>
+                            <span>High for festive season</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="text-align: left;">
+                        <label class="form-label">Final Price (You can edit this)</label>
+                        <input type="number" class="form-control" value="850" style="font-size: 1.25rem; font-weight: 600;" id="finalPrice">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="btn btn-text" onclick="prevStep('step4')">Back</button>
+                <button class="btn btn-primary btn-lg" onclick="publishProduct()">
+                    <i data-lucide="upload-cloud"></i>
+                    Publish Product
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-body text-center" style="padding: var(--spacing-2xl) var(--spacing-lg);">
+                <div style="width: 80px; height: 80px; background: var(--color-success-bg); color: var(--color-success); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--spacing-lg) auto;">
+                    <i data-lucide="check" style="width: 40px; height: 40px;"></i>
+                </div>
+                <h2 style="margin-bottom: var(--spacing-sm);">Your craft is now live!</h2>
+                <p class="text-muted" style="margin-bottom: var(--spacing-xl);">The product has been published to the marketplace and AI is currently matching it with potential buyers.</p>
+                
+                <div style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                    <a href="product-details.html" class="btn btn-primary btn-lg">View Listing</a>
+                    <a href="artisan-dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="js/app.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/add-product.js"></script>
+</body>
+</html>
